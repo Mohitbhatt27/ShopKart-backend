@@ -9,6 +9,7 @@ const APIrouter = require("./routes/api_router");
 const { PORT } = require("./config/serverConfig");
 
 const db = require("./config/db_config");
+const Category = require("./models/category");
 
 app.use(responseTime());
 
@@ -22,4 +23,10 @@ app.listen(PORT, async () => {
   console.log(`Listening on port ${PORT}`);
   await db.sync();
   console.log("Database connected");
+  const response = await Category.create({
+    name: "Electronics",
+    description: "Electronics items",
+  });
+
+  console.log(response.toJSON());
 });
