@@ -15,7 +15,10 @@
 #### 4. Adding the envirnment variables
 
 create a new .env file in the root directory. You can do it using `vim .env` and then add the following variables to the .env file:
+
 `PORT=value_of_the_socket_port`
+
+_You can also refer the `.sample.env` file in the root directory to create a similar .env file_
 
 #### 4. Run the server
 
