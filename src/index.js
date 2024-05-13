@@ -8,6 +8,8 @@ const APIrouter = require("./routes/api_router");
 
 const { PORT } = require("./config/serverConfig");
 
+const db = require("./config/db_config");
+
 app.use(responseTime());
 
 app.use(bodyParser.json());
@@ -16,6 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api", APIrouter);
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Listening on port ${PORT}`);
+  await db.sync();
+  console.log("Database connected");
 });
