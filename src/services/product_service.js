@@ -1,24 +1,29 @@
 const products = []; // in memory DB
-function createProduct(product) {
-  const newProduct = {
-    id: products.length,
-    ...product,
-  };
-  products.push(newProduct);
 
-  return newProduct;
+class ProductService {
+  constructor(respository) {
+    this.respository = respository;
+  }
+
+  createProduct(product) {
+    const newProduct = {
+      id: products.length,
+      ...product,
+    };
+    products.push(newProduct);
+
+    return newProduct;
+  }
+
+  async getProducts() {
+    const response = await this.respository.getAllProducts();
+    return response;
+  }
+
+  async getProduct(id) {
+    const response = await this.respository.getProduct(id);
+    return response;
+  }
 }
 
-function getProducts() {
-  return products;
-}
-
-function getProduct(id) {
-  return products.filter((product) => product.id == id)[0];
-}
-
-module.exports = {
-  createProduct,
-  getProducts,
-  getProduct,
-};
+module.exports = ProductService;
