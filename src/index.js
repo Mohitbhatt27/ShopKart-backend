@@ -20,6 +20,6 @@ app.use("/api", APIrouter);
 
 app.listen(PORT, async () => {
   console.log(`Listening on port ${PORT}`);
-  await db.sync({ alter: true });
+  await db.sync();
   console.log("Database connected");
 });

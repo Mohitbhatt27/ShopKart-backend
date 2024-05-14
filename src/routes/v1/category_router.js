@@ -10,9 +10,13 @@ const {
   updateCategory,
 } = require("../../controllers/category_controller");
 
+const {
+  createCategoryValidator,
+} = require("../../middlewares/category_validator");
+
 categoryRouter.get("/", getAllCategories);
 
-categoryRouter.post("/", createCategory);
+categoryRouter.post("/", createCategoryValidator, createCategory);
 
 categoryRouter.get("/:id", getCategory);
 

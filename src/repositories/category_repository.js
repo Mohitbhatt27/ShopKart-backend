@@ -29,7 +29,8 @@ class CategoryRepository {
       const response = await categoryModel.findByPk(id);
       return response;
     } catch (error) {
-      console.log("Something went wrong", error);
+      console.error("Database error:", error);
+      throw new Error("Database error");
     }
   }
 
@@ -38,7 +39,8 @@ class CategoryRepository {
       const response = await categoryModel.destroy({ where: { id } });
       return response;
     } catch (error) {
-      console.log("Something went wrong", error);
+      console.error("Database error:", error);
+      throw new Error("Database error");
     }
   }
 
@@ -48,12 +50,14 @@ class CategoryRepository {
     if (description) updateData.description = description;
 
     try {
-      const response = await categoryModel.update(updateData, {
+      // need to check if the id is valid or not, if id is valid, the response will be 1
+      const [response] = await categoryModel.update(updateData, {
         where: { id },
       });
       return response;
     } catch (error) {
-      console.log("Something went wrong", error);
+      console.error("Database error:", error);
+      throw new Error("Database error");
     }
   }
 }

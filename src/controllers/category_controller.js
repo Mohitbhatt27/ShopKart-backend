@@ -38,6 +38,12 @@ async function getCategory(req, res) {
   try {
     const id = req.params.id;
     const response = await categoryService.getCategory(id);
+    console.log("res", response);
+    if (!response) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ message: ReasonPhrases.NOT_FOUND });
+    }
     return res.status(StatusCodes.OK).json({
       success: true,
       message: ReasonPhrases.OK,
@@ -45,7 +51,10 @@ async function getCategory(req, res) {
       data: response,
     });
   } catch (error) {
-    console.log("Something went wrong", error);
+    console.error(error);
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 }
 
@@ -53,6 +62,11 @@ async function deleteCategory(req, res) {
   try {
     const id = req.params.id;
     const response = await categoryService.deleteCategory(id);
+    if (!response) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ message: ReasonPhrases.NOT_FOUND });
+    }
     return res.status(StatusCodes.OK).json({
       success: true,
       message: ReasonPhrases.OK,
@@ -60,7 +74,10 @@ async function deleteCategory(req, res) {
       data: response,
     });
   } catch (error) {
-    console.log("Something went wrong", error);
+    console.error(error);
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 }
 
@@ -73,6 +90,13 @@ async function updateCategory(req, res) {
       name,
       description
     );
+
+    if (!response) {
+      console.log("inside not response", response);
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ message: ReasonPhrases.NOT_FOUND });
+    }
     return res.status(StatusCodes.OK).json({
       success: true,
       message: ReasonPhrases.OK,
@@ -80,7 +104,10 @@ async function updateCategory(req, res) {
       data: response,
     });
   } catch (error) {
-    console.log("Something went wrong", error);
+    console.error(error);
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 }
 
