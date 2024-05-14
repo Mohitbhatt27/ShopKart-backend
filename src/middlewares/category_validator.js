@@ -1,6 +1,6 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 function createCategoryValidator(req, res, next) {
-  const requiredFields = ["name", "description"];
+  const requiredFields = ["name"];
 
   for (const field of requiredFields) {
     if (!req.body[field]) {

@@ -7,16 +7,24 @@ class CategoryService {
   }
 
   async createCategory(category) {
-    const response = await this.respository.createCategory(
-      category.name,
-      category.description
-    );
-    return response;
+    try {
+      const response = await this.respository.createCategory(
+        category.name,
+        category.description
+      );
+      return response;
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   async getCategories() {
-    const response = await this.respository.getCategories();
-    return response;
+    try {
+      const response = await this.respository.getCategories();
+      return response;
+    } catch (error) {
+      throw new Error("Error retrieving categories");
+    }
   }
 
   async getCategory(id) {

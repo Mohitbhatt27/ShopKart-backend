@@ -16,7 +16,15 @@ async function createCategory(req, res) {
       data: response,
     });
   } catch (error) {
-    console.log("Something went wrong", error);
+    if (error.message === "Category name must be unique") {
+      return res
+        .status(StatusCodes.CONFLICT)
+        .json({ message: ReasonPhrases.CONFLICT });
+    }
+    console.error(error);
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 }
 
@@ -30,7 +38,10 @@ async function getAllCategories(req, res) {
       data: response,
     });
   } catch (error) {
-    console.log("Something went wrong", error);
+    console.error(error);
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 }
 

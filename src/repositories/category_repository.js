@@ -1,4 +1,5 @@
 const categoryModel = require("../models/category");
+const { Sequelize } = require("sequelize"); //only to check for duplicate name
 
 class CategoryRepository {
   async createCategory(name, description) {
@@ -9,7 +10,12 @@ class CategoryRepository {
       });
       return response;
     } catch (error) {
-      console.log("Something went wrong", error);
+      //checking for duplicate name
+      if (error instanceof Sequelize.UniqueConstraintError) {
+        throw new Error("Category name must be unique");
+      }
+      console.error("Database error:", error);
+      throw new Error("Database error");
     }
   }
 
@@ -20,7 +26,8 @@ class CategoryRepository {
       });
       return response.map((category) => category.name);
     } catch (error) {
-      console.log("Something went wrong", error);
+      console.error("Database error:", error);
+      throw new Error("Database error");
     }
   }
 
