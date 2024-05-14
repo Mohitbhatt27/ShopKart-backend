@@ -49,8 +49,24 @@ async function getCategory(req, res) {
   }
 }
 
+async function deleteCategory(req, res) {
+  try {
+    const id = req.params.id;
+    const response = await categoryService.deleteCategory(id);
+    return res.status(StatusCodes.OK).json({
+      success: true,
+      message: ReasonPhrases.OK,
+      error: {},
+      data: response,
+    });
+  } catch (error) {
+    console.log("Something went wrong", error);
+  }
+}
+
 module.exports = {
   createCategory,
   getAllCategories,
   getCategory,
+  deleteCategory,
 };

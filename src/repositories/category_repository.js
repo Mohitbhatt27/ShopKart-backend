@@ -1,7 +1,5 @@
 const categoryModel = require("../models/category");
 
-const { default: axios } = require("axios");
-
 class CategoryRepository {
   async createCategory(name, description) {
     try {
@@ -27,6 +25,15 @@ class CategoryRepository {
   async getCategory(id) {
     try {
       const response = await categoryModel.findByPk(id);
+      return response;
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  }
+
+  async deleteCategory(id) {
+    try {
+      const response = await categoryModel.destroy({ where: { id } });
       return response;
     } catch (error) {
       console.log("Something went wrong", error);

@@ -20,6 +20,11 @@ class CategoryService {
     const response = await this.respository.getCategory(id);
     return response;
   }
+
+  async deleteCategory(id) {
+    const response = await this.respository.deleteCategory(id);
+    return response;
+  }
 }
 
 module.exports = CategoryService;
