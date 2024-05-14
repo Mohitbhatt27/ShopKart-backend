@@ -64,9 +64,30 @@ async function deleteCategory(req, res) {
   }
 }
 
+async function updateCategory(req, res) {
+  try {
+    const id = req.params.id;
+    const { name, description } = req.body;
+    const response = await categoryService.updateCategory(
+      id,
+      name,
+      description
+    );
+    return res.status(StatusCodes.OK).json({
+      success: true,
+      message: ReasonPhrases.OK,
+      error: {},
+      data: response,
+    });
+  } catch (error) {
+    console.log("Something went wrong", error);
+  }
+}
+
 module.exports = {
   createCategory,
   getAllCategories,
   getCategory,
   deleteCategory,
+  updateCategory,
 };

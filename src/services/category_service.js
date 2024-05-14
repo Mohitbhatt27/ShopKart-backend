@@ -25,6 +25,15 @@ class CategoryService {
     const response = await this.respository.deleteCategory(id);
     return response;
   }
+
+  async updateCategory(id, name, description) {
+    const response = await this.respository.updateCategory(
+      id,
+      name,
+      description
+    );
+    return response;
+  }
 }
 
 module.exports = CategoryService;
