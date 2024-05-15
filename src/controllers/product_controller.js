@@ -26,11 +26,11 @@ async function createProduct(req, res) {
 
 async function getAllProducts(req, res) {
   try {
-    const { limit, offset } = req.query;
+    const { limit, offset, order } = req.query;
 
-    const response = await productService.getProducts(limit, offset);
+    const response = await productService.getProducts(limit, offset, order);
 
-    if (response == "NaN") {
+    if (response == "NaN" || response == "Invalid Order") {
       return res
         .status(StatusCodes.BAD_REQUEST)
         .json({ message: ReasonPhrases.BAD_REQUEST });

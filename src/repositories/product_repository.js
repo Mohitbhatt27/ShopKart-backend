@@ -17,11 +17,13 @@ class ProductRepository {
     }
   }
 
-  async getProducts({ limit, offset }) {
+  async getProducts({ limit, offset }, order) {
     try {
+      console.log("limit", limit, "offset", offset, "order", order);
       const response = await Product.findAll({
         limit,
         offset,
+        order: [["title", order]],
       });
       return response;
     } catch (error) {

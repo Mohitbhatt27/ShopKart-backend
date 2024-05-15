@@ -18,15 +18,22 @@ class ProductService {
     }
   }
 
-  async getProducts(limit, offset) {
+  async getProducts(limit, offset, order) {
     try {
       if ((limit && isNaN(limit)) || (offset && isNaN(offset))) return "NaN";
+      if (
+        order != "asc" &&
+        order != "desc" &&
+        order != "ASC" &&
+        order != "DESC"
+      )
+        return "Invalid Order";
 
       const offlimits = {};
       if (limit) offlimits.limit = parseInt(limit);
       if (offset) offlimits.offset = parseInt(offset);
 
-      const response = await this.respository.getProducts(offlimits);
+      const response = await this.respository.getProducts(offlimits, order);
       return response;
     } catch (error) {
       throw new Error("Error retrieving products");
