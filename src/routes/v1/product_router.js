@@ -2,13 +2,15 @@ const express = require("express");
 
 const productRouter = express.Router();
 
+const { ProductController } = require("../../controllers/index");
+
 const {
   createProduct,
   getAllProducts,
   getProduct,
   deleteProduct,
   updateProduct,
-} = require("../../controllers/product_controller");
+} = ProductController;
 
 const {
   createProductValidator,

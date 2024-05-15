@@ -2,6 +2,8 @@ const express = require("express");
 
 const categoryRouter = express.Router();
 
+const { CategoryController } = require("../../controllers/index");
+
 const {
   createCategory,
   getAllCategories,
@@ -9,7 +11,7 @@ const {
   deleteCategory,
   updateCategory,
   getProductsByCategoryId,
-} = require("../../controllers/category_controller");
+} = CategoryController;
 
 const {
   createCategoryValidator,
