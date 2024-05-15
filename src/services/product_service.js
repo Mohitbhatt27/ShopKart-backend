@@ -18,22 +18,36 @@ class ProductService {
     }
   }
 
-  async getProducts(limit, offset, order) {
+  async getProducts(query) {
     try {
-      if ((limit && isNaN(limit)) || (offset && isNaN(offset))) return "NaN";
       if (
-        order != "asc" &&
-        order != "desc" &&
-        order != "ASC" &&
-        order != "DESC"
+        (query.limit && isNaN(+query.limit)) ||
+        (query.offset && isNaN(+query.offset))
+      ) {
+        return "NaN";
+      }
+
+      if (query.offset) query.offset = +query.offset;
+      if (query.limit) query.limit = +query.limit;
+      if (query.min) query.min = +query.min;
+      if (query.max) query.max = +query.max;
+
+      if (
+        query.order &&
+        query.order != "asc" &&
+        query.order != "desc" &&
+        query.order != "ASC" &&
+        query.order != "DESC"
       )
         return "Invalid Order";
 
-      const offlimits = {};
-      if (limit) offlimits.limit = parseInt(limit);
-      if (offset) offlimits.offset = parseInt(offset);
-
-      const response = await this.respository.getProducts(offlimits, order);
+      const response = await this.respository.getProducts(
+        query.limit,
+        query.offset,
+        query.order,
+        query.min,
+        query.max
+      );
       return response;
     } catch (error) {
       throw new Error("Error retrieving products");

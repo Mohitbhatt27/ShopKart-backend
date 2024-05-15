@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const { Product } = require("../models/index");
 
 class ProductRepository {
@@ -17,14 +18,23 @@ class ProductRepository {
     }
   }
 
-  async getProducts({ limit, offset }, order) {
+  async getProducts(limit, offset, order, min, max) {
+    console.log(limit, offset, order, min, max);
     try {
-      console.log("limit", limit, "offset", offset, "order", order);
+      const minPrice = min ? min : Number.MIN_SAFE_INTEGER;
+      const maxPrice = max ? max : Number.MAX_SAFE_INTEGER;
+      const orderClause = order ? [["title", order]] : [["title", "ASC"]];
       const response = await Product.findAll({
+        where: {
+          price: {
+            [Op.between]: [minPrice, maxPrice],
+          },
+        },
         limit,
         offset,
-        order: [["title", order]],
+        order: orderClause,
       });
+
       return response;
     } catch (error) {
       console.error("Database error:", error);

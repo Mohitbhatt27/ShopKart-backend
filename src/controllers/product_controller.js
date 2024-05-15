@@ -26,9 +26,7 @@ async function createProduct(req, res) {
 
 async function getAllProducts(req, res) {
   try {
-    const { limit, offset, order } = req.query;
-
-    const response = await productService.getProducts(limit, offset, order);
+    const response = await productService.getProducts(req.query);
 
     if (response == "NaN" || response == "Invalid Order") {
       return res
