@@ -6,7 +6,7 @@ const app = express();
 
 const APIrouter = require("./routes/api_router");
 
-const { PORT } = require("./config/serverConfig");
+const { PORT, DB_FORCE, DB_ALTER } = require("./config/serverConfig");
 
 const db = require("./config/db_config");
 
@@ -20,6 +20,12 @@ app.use("/api", APIrouter);
 
 app.listen(PORT, async () => {
   console.log(`Listening on port ${PORT}`);
-  await db.sync();
+  if (DB_FORCE == true) {
+    await db.sync({ force: true });
+  } else if (DB_ALTER == true) {
+    await db.sync({ alter: true });
+  } else {
+    await db.sync();
+  }
   console.log("Database connected");
 });
