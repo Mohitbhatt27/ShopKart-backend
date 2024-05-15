@@ -66,6 +66,18 @@ class ProductRepository {
       throw new Error("Database error");
     }
   }
+
+  async getProductsByCategoryId(categoryId) {
+    try {
+      const response = await Product.findAll({
+        where: { categoryId },
+      });
+      return response;
+    } catch (error) {
+      console.error("Database error:", error);
+      throw new Error("Database error");
+    }
+  }
 }
 
 module.exports = ProductRepository;

@@ -8,6 +8,7 @@ const {
   getCategory,
   deleteCategory,
   updateCategory,
+  getProductsByCategoryId,
 } = require("../../controllers/category_controller");
 
 const {
@@ -23,5 +24,7 @@ categoryRouter.get("/:id", getCategory);
 categoryRouter.delete("/:id", deleteCategory);
 
 categoryRouter.patch("/:id", updateCategory);
+
+categoryRouter.get("/:id/products", getProductsByCategoryId);
 
 module.exports = categoryRouter;

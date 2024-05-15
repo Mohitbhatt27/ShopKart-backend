@@ -1,9 +1,7 @@
-const NotFoundError = require("../errors/not_found_error");
-const InternalServer = require("../errors/internal_server_error");
-
 class CategoryService {
-  constructor(respository) {
+  constructor(respository, productRepository) {
     this.respository = respository;
+    this.productRepository = productRepository;
   }
 
   async createCategory(category) {
@@ -57,6 +55,15 @@ class CategoryService {
       return response;
     } catch (error) {
       throw new Error("Error updating category");
+    }
+  }
+
+  async getProductsByCategoryId(id) {
+    try {
+      const response = await this.productRepository.getProductsByCategoryId(id);
+      return response;
+    } catch (error) {
+      throw new Error("Error retrieving products by category");
     }
   }
 }

@@ -1,8 +1,8 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
-const ProductService = require("../services/product_service");
+const ProductService = require("../services/index");
 
-const ProductRepository = require("../repositories/product_repository");
+const { ProductRepository } = require("../repositories/index");
 
 const productService = new ProductService(new ProductRepository());
 

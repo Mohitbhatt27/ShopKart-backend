@@ -1,10 +1,16 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
-const CategoryService = require("../services/category_service");
+const CategoryService = require("../services/index");
 
-const CategoryRepository = require("../repositories/category_repository");
+const {
+  CategoryRepository,
+  ProductRepository,
+} = require("../repositories/index");
 
-const categoryService = new CategoryService(new CategoryRepository());
+const categoryService = new CategoryService(
+  new CategoryRepository(),
+  new ProductRepository()
+);
 
 async function createCategory(req, res) {
   try {
@@ -120,10 +126,34 @@ async function updateCategory(req, res) {
   }
 }
 
+async function getProductsByCategoryId(req, res) {
+  try {
+    const id = req.params.id;
+    const response = await categoryService.getProductsByCategoryId(id);
+    if (!response) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ message: ReasonPhrases.NOT_FOUND });
+    }
+    return res.status(StatusCodes.OK).json({
+      success: true,
+      message: ReasonPhrases.OK,
+      error: {},
+      data: response,
+    });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
+  }
+}
+
 module.exports = {
   createCategory,
   getAllCategories,
   getCategory,
   deleteCategory,
   updateCategory,
+  getProductsByCategoryId,
 };
