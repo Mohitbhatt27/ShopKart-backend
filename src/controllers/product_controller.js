@@ -1,10 +1,14 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
-const ProductService = require("../services/index");
+const { ProductService } = require("../services/index");
 
 const { ProductRepository } = require("../repositories/index");
 
 const productService = new ProductService(new ProductRepository());
+
+const {
+  handleInternalServerError,
+} = require("../errors/internal_server_error");
 
 async function createProduct(req, res) {
   try {
@@ -16,10 +20,7 @@ async function createProduct(req, res) {
       data: response,
     });
   } catch (error) {
-    console.error(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
+    handleInternalServerError(res, error);
   }
 }
 
@@ -33,10 +34,7 @@ async function getAllProducts(req, res) {
       data: response,
     });
   } catch (error) {
-    console.error(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
+    handleInternalServerError(res, error);
   }
 }
 
@@ -56,10 +54,7 @@ async function getProduct(req, res) {
       data: response,
     });
   } catch (error) {
-    console.error(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
+    handleInternalServerError(res, error);
   }
 }
 
@@ -79,9 +74,7 @@ async function deleteProduct(req, res) {
       data: response,
     });
   } catch (error) {
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
+    handleInternalServerError(res, error);
   }
 }
 
@@ -110,10 +103,7 @@ async function updateProduct(req, res) {
       data: response,
     });
   } catch (error) {
-    console.error(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
+    handleInternalServerError(res, error);
   }
 }
 

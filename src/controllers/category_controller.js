@@ -1,11 +1,15 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
-const CategoryService = require("../services/index");
+const { CategoryService } = require("../services/index");
 
 const {
   CategoryRepository,
   ProductRepository,
 } = require("../repositories/index");
+
+const {
+  handleInternalServerError,
+} = require("../errors/internal_server_error");
 
 const categoryService = new CategoryService(
   new CategoryRepository(),
@@ -27,10 +31,7 @@ async function createCategory(req, res) {
         .status(StatusCodes.CONFLICT)
         .json({ message: ReasonPhrases.CONFLICT });
     }
-    console.error(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
+    handleInternalServerError(res, error);
   }
 }
 
@@ -44,10 +45,7 @@ async function getAllCategories(req, res) {
       data: response,
     });
   } catch (error) {
-    console.error(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
+    handleInternalServerError(res, error);
   }
 }
 
@@ -67,10 +65,7 @@ async function getCategory(req, res) {
       data: response,
     });
   } catch (error) {
-    console.error(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
+    handleInternalServerError(res, error);
   }
 }
 
@@ -90,10 +85,7 @@ async function deleteCategory(req, res) {
       data: response,
     });
   } catch (error) {
-    console.error(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
+    handleInternalServerError(res, error);
   }
 }
 
@@ -119,10 +111,7 @@ async function updateCategory(req, res) {
       data: response,
     });
   } catch (error) {
-    console.error(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
+    handleInternalServerError(res, error);
   }
 }
 
@@ -142,10 +131,7 @@ async function getProductsByCategoryId(req, res) {
       data: response,
     });
   } catch (error) {
-    console.error(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ message: ReasonPhrases.INTERNAL_SERVER_ERROR });
+    handleInternalServerError(res, error);
   }
 }
 
