@@ -6,6 +6,8 @@ const {
   createProduct,
   getAllProducts,
   getProduct,
+  deleteProduct,
+  updateProduct,
 } = require("../../controllers/product_controller");
 
 const {
@@ -17,5 +19,9 @@ productRouter.get("/", getAllProducts);
 productRouter.post("/", createProductValidator, createProduct);
 
 productRouter.get("/:id", getProduct);
+
+productRouter.patch("/:id", updateProduct);
+
+productRouter.delete("/:id", deleteProduct);
 
 module.exports = productRouter;

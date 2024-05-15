@@ -1,39 +1,25 @@
-const { Category } = require("../models/index");
-const { Sequelize } = require("sequelize"); //only to check for duplicate name
+const { Product } = require("../models/index");
 
-class CategoryRepository {
-  async createCategory(name, description) {
+class ProductRepository {
+  async createProduct(title, description, price, image, categoryId) {
     try {
-      const response = await Category.create({
-        name,
+      const response = await Product.create({
+        title,
         description,
+        price,
+        image,
+        categoryId,
       });
       return response;
     } catch (error) {
-      //checking for duplicate name
-      if (error instanceof Sequelize.UniqueConstraintError) {
-        throw new Error("Category name must be unique");
-      }
       console.error("Database error:", error);
       throw new Error("Database error");
     }
   }
 
-  async getCategories() {
+  async getProducts() {
     try {
-      const response = await Category.findAll({
-        attributes: ["name"],
-      });
-      return response.map((category) => category.name);
-    } catch (error) {
-      console.error("Database error:", error);
-      throw new Error("Database error");
-    }
-  }
-
-  async getCategory(id) {
-    try {
-      const response = await Category.findByPk(id);
+      const response = await Product.findAll();
       return response;
     } catch (error) {
       console.error("Database error:", error);
@@ -41,9 +27,9 @@ class CategoryRepository {
     }
   }
 
-  async deleteCategory(id) {
+  async getProduct(id) {
     try {
-      const response = await Category.destroy({ where: { id } });
+      const response = await Product.findByPk(id);
       return response;
     } catch (error) {
       console.error("Database error:", error);
@@ -51,14 +37,27 @@ class CategoryRepository {
     }
   }
 
-  async updateCategory(id, name, description) {
+  async deleteProduct(id) {
+    try {
+      const response = await Product.destroy({ where: { id } });
+      return response;
+    } catch (error) {
+      console.error("Database error:", error);
+      throw new Error("Database error");
+    }
+  }
+
+  async updateProduct(id, title, description, price, image, categoryId) {
     const updateData = {};
-    if (name) updateData.name = name;
+    if (title) updateData.title = title;
     if (description) updateData.description = description;
+    if (price) updateData.price = price;
+    if (image) updateData.image = image;
+    if (categoryId) updateData.categoryId = categoryId;
 
     try {
       // need to check if the id is valid or not, if id is valid, the response will be 1
-      const [response] = await Category.update(updateData, {
+      const [response] = await Product.update(updateData, {
         where: { id },
       });
       return response;
@@ -69,4 +68,4 @@ class CategoryRepository {
   }
 }
 
-module.exports = CategoryRepository;
+module.exports = ProductRepository;

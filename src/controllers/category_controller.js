@@ -49,7 +49,6 @@ async function getCategory(req, res) {
   try {
     const id = req.params.id;
     const response = await categoryService.getCategory(id);
-    console.log("res", response);
     if (!response) {
       return res
         .status(StatusCodes.NOT_FOUND)
@@ -103,7 +102,6 @@ async function updateCategory(req, res) {
     );
 
     if (!response) {
-      console.log("inside not response", response);
       return res
         .status(StatusCodes.NOT_FOUND)
         .json({ message: ReasonPhrases.NOT_FOUND });

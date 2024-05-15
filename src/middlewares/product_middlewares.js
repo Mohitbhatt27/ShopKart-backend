@@ -1,6 +1,12 @@
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 function createProductValidator(req, res, next) {
-  const requiredFields = ["title", "price", "description", "category", "image"];
+  const requiredFields = [
+    "title",
+    "price",
+    "description",
+    "categoryId",
+    "image",
+  ];
 
   for (const field of requiredFields) {
     if (!req.body[field]) {
