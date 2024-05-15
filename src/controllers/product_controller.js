@@ -26,13 +26,26 @@ async function createProduct(req, res) {
 
 async function getAllProducts(req, res) {
   try {
-    const response = await productService.getProducts();
-    return res.status(StatusCodes.OK).json({
-      success: true,
-      message: ReasonPhrases.OK,
-      error: {},
-      data: response,
-    });
+    const { limit, offset } = req.query;
+
+    const response = await productService.getProducts(limit, offset);
+
+    if (response == "NaN") {
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .json({ message: ReasonPhrases.BAD_REQUEST });
+    } else if (response.length === 0) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ message: ReasonPhrases.NOT_FOUND });
+    } else {
+      return res.status(StatusCodes.OK).json({
+        success: true,
+        message: ReasonPhrases.OK,
+        error: {},
+        data: response,
+      });
+    }
   } catch (error) {
     handleInternalServerError(res, error);
   }

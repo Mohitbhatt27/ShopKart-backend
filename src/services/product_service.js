@@ -18,9 +18,15 @@ class ProductService {
     }
   }
 
-  async getProducts() {
+  async getProducts(limit, offset) {
     try {
-      const response = await this.respository.getProducts();
+      if ((limit && isNaN(limit)) || (offset && isNaN(offset))) return "NaN";
+
+      const offlimits = {};
+      if (limit) offlimits.limit = parseInt(limit);
+      if (offset) offlimits.offset = parseInt(offset);
+
+      const response = await this.respository.getProducts(offlimits);
       return response;
     } catch (error) {
       throw new Error("Error retrieving products");
