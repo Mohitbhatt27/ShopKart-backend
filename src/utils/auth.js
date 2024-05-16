@@ -6,7 +6,11 @@ function generateJWT(payload) {
 }
 
 function verifyToken(token) {
-  return jwt.verify(token, JWT_SECRET);
+  try {
+    return jwt.verify(token, JWT_SECRET);
+  } catch (error) {
+    throw new Error(error.message);
+  }
 }
 
 module.exports = {

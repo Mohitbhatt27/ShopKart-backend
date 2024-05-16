@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const responseTime = require("response-time");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 
@@ -11,6 +12,8 @@ const { PORT, DB_FORCE, DB_ALTER } = require("./config/serverConfig");
 const db = require("./config/db_config");
 
 app.use(responseTime());
+
+app.use(cookieParser());
 
 app.use(bodyParser.json());
 app.use(bodyParser.text());
