@@ -10,6 +10,7 @@ const {
   getProduct,
   deleteProduct,
   updateProduct,
+  searchProduct,
 } = ProductController;
 
 const {
@@ -19,6 +20,8 @@ const {
 productRouter.get("/", getAllProducts);
 
 productRouter.post("/", createProductValidator, createProduct);
+
+productRouter.get("/search", searchProduct);
 
 productRouter.get("/:id", getProduct);
 

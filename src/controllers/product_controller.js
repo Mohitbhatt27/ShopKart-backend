@@ -24,6 +24,25 @@ async function createProduct(req, res) {
   }
 }
 
+async function searchProduct(req, res) {
+  try {
+    const response = await productService.searchProduct(req.query);
+    if (response == "No products found") {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ message: ReasonPhrases.NOT_FOUND });
+    }
+    return res.status(StatusCodes.OK).json({
+      success: true,
+      message: ReasonPhrases.OK,
+      error: {},
+      data: response,
+    });
+  } catch (error) {
+    handleInternalServerError(res, error);
+  }
+}
+
 async function getAllProducts(req, res) {
   try {
     const response = await productService.getProducts(req.query);
@@ -124,4 +143,5 @@ module.exports = {
   getProduct,
   deleteProduct,
   updateProduct,
+  searchProduct,
 };

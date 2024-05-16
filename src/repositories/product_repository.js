@@ -18,11 +18,27 @@ class ProductRepository {
     }
   }
 
-  async getProducts(limit, offset, order, min, max) {
-    console.log(limit, offset, order, min, max);
+  async searchProduct(query) {
     try {
-      const minPrice = min ? min : Number.MIN_SAFE_INTEGER;
-      const maxPrice = max ? max : Number.MAX_SAFE_INTEGER;
+      const response = await Product.findAll({
+        where: {
+          title: {
+            [Op.like]: `%${query}%`,
+          },
+        },
+      });
+      return response;
+    } catch (error) {
+      console.error("Database error:", error);
+      throw new Error("Database error");
+    }
+  }
+
+  async getProducts(limit, offset, order, min_price, max_price) {
+    console.log(limit, offset, order, min_price, max_price);
+    try {
+      const minPrice = min_price ? min_price : Number.MIN_SAFE_INTEGER;
+      const maxPrice = max_price ? max_price : Number.MAX_SAFE_INTEGER;
       const orderClause = order ? [["title", order]] : [["title", "ASC"]];
       const response = await Product.findAll({
         where: {

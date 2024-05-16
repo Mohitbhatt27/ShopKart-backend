@@ -6,19 +6,23 @@ const User = db.define(
   {
     username: {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     password: {
       type: Sequelize.STRING,
-      allowNull: true,
-      len: [6, 20],
-      isAlphanumeric: true,
+      allowNull: false,
+      validate: {
+        len: [6, 20],
+        isAlphanumeric: true,
+      },
     },
     email: {
       type: Sequelize.STRING,
       allowNull: false,
       unique: true,
-      isEmail: true,
+      validate: {
+        isEmail: true,
+      },
     },
   },
   {

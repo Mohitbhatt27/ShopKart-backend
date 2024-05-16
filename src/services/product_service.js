@@ -18,10 +18,20 @@ class ProductService {
     }
   }
 
+  async searchProduct(query) {
+    try {
+      const response = await this.respository.searchProduct(query.q);
+      if (!response.length) return "No products found";
+      return response;
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  }
+
   async getProducts(query) {
     try {
       if (
-        (query.limit && isNaN(+query.limit)) ||
+        (query.limit && isNaN(+query.limit)) |
         (query.offset && isNaN(+query.offset))
       ) {
         return "NaN";
@@ -29,8 +39,8 @@ class ProductService {
 
       if (query.offset) query.offset = +query.offset;
       if (query.limit) query.limit = +query.limit;
-      if (query.min) query.min = +query.min;
-      if (query.max) query.max = +query.max;
+      if (query.min_price) query.min_price = +query.min_price;
+      if (query.max_price) query.max_price = +query.max_price;
 
       if (
         query.order &&
@@ -45,8 +55,8 @@ class ProductService {
         query.limit,
         query.offset,
         query.order,
-        query.min,
-        query.max
+        query.min_price,
+        query.max_price
       );
       return response;
     } catch (error) {
