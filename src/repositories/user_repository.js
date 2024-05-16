@@ -14,9 +14,6 @@ class UserRepository {
       if (error.name === "SequelizeUniqueConstraintError") {
         throw new Error("Email must be unique");
       } else if (error.name === "SequelizeValidationError") {
-        if (error.errors[0].type === "notNull Violation") {
-          throw new Error("Empty required fields");
-        }
         const errorpath = error.errors[0].path;
         if (errorpath === "email") {
           throw new Error("Invalid email address");
