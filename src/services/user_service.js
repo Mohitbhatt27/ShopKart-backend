@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const { generateJWT } = require("../utils/auth");
 
 class UserService {
   constructor(respository) {
@@ -25,7 +26,8 @@ class UserService {
 
       const isPasswordValid = await bcrypt.compareSync(password, user.password);
       if (!isPasswordValid) throw new Error("Invalid credentials");
-      return user;
+
+      return generateJWT({ id: user.id, email: user.email });
     } catch (error) {
       throw new Error(error.message);
     }

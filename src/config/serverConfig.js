@@ -11,4 +11,6 @@ module.exports = {
   DB_ALTER: process.env.DB_ALTER,
   DB_FORCE: process.env.DB_FORCE,
   SALT: process.env.SALT,
+  JWT_SECRET: process.env.JWT_SECRET,
+  JWT_EXPIRY: process.env.JWT_EXPIRY,
 };
