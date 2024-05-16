@@ -4,6 +4,8 @@ const { UserService } = require("../services/index");
 
 const { UserRepository } = require("../repositories/index");
 
+const { NODE_ENV } = require("../config/serverConfig");
+
 const {
   handleInternalServerError,
 } = require("../errors/internal_server_error");
@@ -63,11 +65,18 @@ async function signinUser(req, res) {
       req.body.email,
       req.body.password
     );
+
+    res.cookie("token", response, {
+      httpOnly: true,
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      secure: NODE_ENV === "production",
+    });
+
     return res.status(StatusCodes.OK).json({
       success: true,
       message: ReasonPhrases.OK,
       error: {},
-      data: response,
+      data: NODE_ENV === "production" ? true : response,
     });
   } catch (error) {
     if (error.message == "User not found") {
