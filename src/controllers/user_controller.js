@@ -57,6 +57,39 @@ async function createUser(req, res) {
   }
 }
 
+async function signinUser(req, res) {
+  try {
+    const response = await userService.signinUser(
+      req.body.email,
+      req.body.password
+    );
+    return res.status(StatusCodes.OK).json({
+      success: true,
+      message: ReasonPhrases.OK,
+      error: {},
+      data: response,
+    });
+  } catch (error) {
+    if (error.message == "User not found") {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        success: false,
+        message: ReasonPhrases.NOT_FOUND,
+        error: "User not found",
+        data: {},
+      });
+    }
+    if (error.message == "Invalid credentials") {
+      return res.status(StatusCodes.UNAUTHORIZED).json({
+        success: false,
+        message: ReasonPhrases.UNAUTHORIZED,
+        error: "Invalid credentials",
+        data: {},
+      });
+    }
+    handleInternalServerError(res, error);
+  }
+}
+
 async function getUser(req, res) {
   try {
     const response = await userService.getUser(req.params.id);
@@ -105,4 +138,5 @@ module.exports = {
   createUser,
   getUser,
   deleteUser,
+  signinUser,
 };

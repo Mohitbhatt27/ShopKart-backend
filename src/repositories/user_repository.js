@@ -27,6 +27,18 @@ class UserRepository {
     }
   }
 
+  async getUserByEmail(email) {
+    try {
+      const response = await User.findOne({
+        where: { email },
+      });
+      return response;
+    } catch (error) {
+      console.error("Database error:", error);
+      throw new Error("Database error");
+    }
+  }
+
   async getUser(id) {
     try {
       const response = await User.findByPk(id);
