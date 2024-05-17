@@ -2,7 +2,7 @@ const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
 const { UserService } = require("../services/index");
 
-const { UserRepository } = require("../repositories/index");
+const { UserRepository, CartRepository } = require("../repositories/index");
 
 const { NODE_ENV } = require("../config/serverConfig");
 
@@ -10,7 +10,7 @@ const {
   handleInternalServerError,
 } = require("../errors/internal_server_error");
 
-const userService = new UserService(new UserRepository());
+const userService = new UserService(new UserRepository(), new CartRepository());
 
 async function createUser(req, res) {
   try {

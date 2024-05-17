@@ -2,8 +2,9 @@ const bcrypt = require("bcrypt");
 const { generateJWT } = require("../utils/auth");
 
 class UserService {
-  constructor(respository) {
+  constructor(respository, cartRepository) {
     this.respository = respository;
+    this.cartRepository = cartRepository;
   }
 
   async createUser(category) {
@@ -13,6 +14,8 @@ class UserService {
         category.password,
         category.email
       );
+      const cart = await this.cartRepository.createCart(response.id);
+      response.cart = cart;
       return response;
     } catch (error) {
       throw new Error(error.message);

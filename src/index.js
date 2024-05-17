@@ -10,6 +10,7 @@ const APIrouter = require("./routes/api_router");
 const { PORT, DB_FORCE, DB_ALTER } = require("./config/serverConfig");
 
 const db = require("./config/db_config");
+const { User } = require("./models");
 
 app.use(responseTime());
 
@@ -31,4 +32,8 @@ app.listen(PORT, async () => {
     await db.sync();
   }
   console.log("Database connected");
+
+  // const user = await User.findByPk(15);
+  // const cart = await user.getCart();
+  // console.log(cart);
 });
