@@ -21,9 +21,9 @@ class CartRepository {
     }
   }
 
-  async deleteCart(id) {
+  async clearCart(id) {
     try {
-      const response = await Cart.destroy({ where: { id } });
+      const response = await CartProduct.destroy({ where: { cartId: id } });
       return response;
     } catch (error) {
       console.error("Database error:", error);
@@ -31,9 +31,11 @@ class CartRepository {
     }
   }
 
-  async getCarts() {
+  async getCartProducts(id) {
     try {
-      const response = await Cart.findAll();
+      const response = await CartProduct.findAll({
+        where: { cartId: id },
+      });
       return response;
     } catch (error) {
       console.error("Database error:", error);

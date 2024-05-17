@@ -36,6 +36,40 @@ class CartService {
       throw new Error(error.message || "Error updating cart");
     }
   }
+
+  async clearCart(userId, cartId) {
+    try {
+      const cart = await this.respository.getCart(cartId);
+      if (!cart) {
+        throw new Error("Cart not found");
+      }
+      if (cart.userId != userId) {
+        throw new Error("Cart does not belong to this user");
+      }
+
+      const response = await this.respository.clearCart(cartId);
+      return response;
+    } catch (error) {
+      console.error(error);
+      throw new Error(error.message || "Error clearing cart");
+    }
+  }
+  async getCartProducts(userId, cartId) {
+    try {
+      const cart = await this.respository.getCart(cartId);
+      if (!cart) {
+        throw new Error("Cart not found");
+      }
+      if (cart.userId != userId) {
+        throw new Error("Cart does not belong to this user");
+      }
+      const response = await this.respository.getCartProducts(cartId);
+      return response;
+    } catch (error) {
+      console.error(error);
+      throw new Error(error.message || "Error clearing cart");
+    }
+  }
 }
 
 module.exports = CartService;
