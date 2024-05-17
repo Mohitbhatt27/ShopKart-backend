@@ -52,6 +52,30 @@ class OrderService {
       throw new Error(error.message || "unable to create order");
     }
   }
+
+  async changeOrderStatus(userId, orderId, status) {
+    try {
+      const order = await this.respository.getOrder(orderId);
+
+      if (order && userId !== order.userId) {
+        throw new Error("Unauthorized access");
+      }
+
+      if (!order) {
+        throw new Error("Order not found");
+      }
+
+      const response = await this.respository.changeOrderStatus(
+        orderId,
+        status
+      );
+      console.log(response);
+      return response;
+    } catch (error) {
+      console.error(error);
+      throw new Error(error.message || "unable to change order status");
+    }
+  }
 }
 
 module.exports = OrderService;

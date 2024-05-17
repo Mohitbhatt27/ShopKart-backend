@@ -43,6 +43,31 @@ class OrderRepository {
       throw new Error("Database error");
     }
   }
+
+  async changeOrderStatus(orderId, status) {
+    try {
+      const response = await Order.update(
+        { status },
+        {
+          where: { id: orderId },
+        }
+      );
+
+      return response;
+    } catch (error) {
+      console.error("Database error:", error);
+      throw new Error("Database error");
+    }
+  }
+
+  async getOrderByUserId(userId) {
+    try {
+      const response = await Order.findOne({ where: { userId } });
+      return response;
+    } catch (error) {
+      console.error("Database error:", error);
+    }
+  }
 }
 
 module.exports = OrderRepository;

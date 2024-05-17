@@ -1,5 +1,4 @@
 const { User } = require("../models/index");
-const { Sequelize } = require("sequelize"); //only to check for duplicate email
 
 class UserRepository {
   async createUser(username, password, email) {

@@ -47,6 +47,46 @@ async function createOrder(req, res) {
   }
 }
 
+async function changeOrderStatus(req, res) {
+  try {
+    const orderId = req.params.orderId;
+    const status = req.body.status;
+    const userId = req.user.id;
+    const response = await orderService.changeOrderStatus(
+      userId,
+      orderId,
+      status
+    );
+    return res.status(StatusCodes.OK).json({
+      success: true,
+      message: ReasonPhrases.OK,
+      error: {},
+      data: response,
+    });
+  } catch (error) {
+    if (error.message === "Order not found") {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        success: false,
+        message: ReasonPhrases.NOT_FOUND,
+        error: "Order not found",
+        data: {},
+      });
+    }
+
+    if (error.message === "Unauthorized access") {
+      return res.status(StatusCodes.UNAUTHORIZED).json({
+        success: false,
+        message: ReasonPhrases.UNAUTHORIZED,
+        error: "Unauthorized access",
+        data: {},
+      });
+    }
+
+    handleInternalServerError(res, error);
+  }
+}
+
 module.exports = {
   createOrder,
+  changeOrderStatus,
 };
