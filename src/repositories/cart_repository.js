@@ -43,6 +43,15 @@ class CartRepository {
     }
   }
 
+  async getCartByUserId(userId) {
+    try {
+      const response = await Cart.findOne({ where: { userId } });
+      return response;
+    } catch (error) {
+      console.error("Database error:", error);
+    }
+  }
+
   async updateCart(cartId, productId, toBeAdded = true) {
     try {
       /**
