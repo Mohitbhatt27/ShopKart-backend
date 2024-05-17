@@ -14,8 +14,8 @@ class UserService {
         category.password,
         category.email
       );
-      const cart = await this.cartRepository.createCart(response.id);
-      response.cart = cart;
+      await this.cartRepository.createCart(response.id);
+
       return response;
     } catch (error) {
       throw new Error(error.message);
