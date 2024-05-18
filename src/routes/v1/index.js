@@ -10,9 +10,9 @@ const orderRoutes = require("./order_router");
 
 V1router.use("/ping", pingRoutes);
 V1router.use("/products", productRoutes);
-V1router.use("/category", categoryRoutes);
-V1router.use("/user", userRoutes);
-V1router.use("/cart", cartRoutes);
-V1router.use("/order", orderRoutes);
+V1router.use("/categories", categoryRoutes);
+V1router.use("/users", userRoutes);
+V1router.use("/carts", cartRoutes);
+V1router.use("/orders", orderRoutes);
 
 module.exports = V1router;
