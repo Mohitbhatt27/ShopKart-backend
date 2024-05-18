@@ -6,6 +6,16 @@ const CartProduct = require("./cart_product");
 const Order = require("./order");
 const OrderProduct = require("./order_product");
 
+async function syncDbInOrder() {
+  await Category.sync();
+  await Product.sync();
+  await User.sync();
+  await Cart.sync();
+  await Order.sync();
+  await CartProduct.sync();
+  await OrderProduct.sync();
+}
+
 Product.belongsTo(Category, { foreignKey: "categoryId" });
 
 Category.hasMany(Product, { foreignKey: "categoryId" });
@@ -30,4 +40,5 @@ module.exports = {
   CartProduct,
   Order,
   OrderProduct,
+  syncDbInOrder,
 };
