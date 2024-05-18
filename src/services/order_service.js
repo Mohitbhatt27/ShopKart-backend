@@ -69,11 +69,54 @@ class OrderService {
         orderId,
         status
       );
-      console.log(response);
       return response;
     } catch (error) {
       console.error(error);
       throw new Error(error.message || "unable to change order status");
+    }
+  }
+
+  async fetchOrderDetails(userId, orderId) {
+    try {
+      //1. check if order exists and the user is authorised
+      const order = await this.respository.getOrder(orderId);
+
+      if (order && userId !== order.userId) {
+        throw new Error("Unauthorized access");
+      }
+
+      if (!order) {
+        throw new Error("Order not found");
+      }
+
+      //2. get order products
+      const response = await this.respository.fetchOrderDetails(orderId);
+      let totalPrice = 0;
+
+      const products = response.dataValues.products.map((product) => {
+        totalPrice +=
+          product.dataValues.price * product.order_product.dataValues.quantity;
+        return {
+          id: product.dataValues.id,
+          title: product.dataValues.title,
+          price: product.dataValues.price,
+          image: product.dataValues.image,
+          quantity: product.order_product.dataValues.quantity,
+        };
+      });
+
+      return {
+        orderId: response.dataValues.id,
+        orderStatus: response.dataValues.status,
+        userId: userId,
+        orderDate: response.dataValues.createdAt.toDateString(),
+        orderUpdateDate: response.dataValues.updatedAt.toDateString(),
+        products: products,
+        totalPrice: totalPrice,
+      };
+    } catch (error) {
+      console.error(error);
+      throw new Error(error.message || "unable to fetch order details");
     }
   }
 }

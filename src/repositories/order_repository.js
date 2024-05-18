@@ -1,4 +1,4 @@
-const { Order, OrderProduct } = require("../models/index");
+const { Order, OrderProduct, Product } = require("../models/index");
 
 class OrderRepository {
   async getOrders() {
@@ -66,6 +66,30 @@ class OrderRepository {
       return response;
     } catch (error) {
       console.error("Database error:", error);
+      throw new Error("Database error");
+    }
+  }
+
+  async fetchOrderDetails(orderId) {
+    try {
+      const response = await Order.findOne({
+        where: {
+          id: orderId,
+        },
+        include: {
+          model: Product,
+          attributes: ["title", "id", "price", "image"],
+          through: {
+            model: OrderProduct,
+            attributes: ["quantity"],
+          },
+        },
+        attributes: ["id", "status", "createdAt", "updatedAt"],
+      });
+      return response;
+    } catch (error) {
+      console.error("Database error:", error);
+      throw new Error("Database error");
     }
   }
 }
