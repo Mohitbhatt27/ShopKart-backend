@@ -15,7 +15,7 @@ const {
 
 const {
   createProductValidator,
-} = require("../../middlewares/product_middlewares");
+} = require("../../middlewares/product_middleware");
 
 productRouter.get("/", getAllProducts);
 

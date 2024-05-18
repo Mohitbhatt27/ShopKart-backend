@@ -15,7 +15,7 @@ const {
 
 const {
   createCategoryValidator,
-} = require("../../middlewares/category_validator");
+} = require("../../middlewares/category_middleware");
 
 categoryRouter.get("/", getAllCategories);
 
