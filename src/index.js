@@ -2,8 +2,11 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const responseTime = require("response-time");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 
 const app = express();
+
+app.use(cors());
 
 const APIrouter = require("./routes/api_router");
 
