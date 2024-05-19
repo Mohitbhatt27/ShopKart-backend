@@ -6,14 +6,16 @@ const CartProduct = require("./cart_product");
 const Order = require("./order");
 const OrderProduct = require("./order_product");
 
+const { DB_FORCE, DB_ALTER } = require("../config/serverConfig");
+
 async function syncDbInOrder() {
-  await Category.sync();
-  await Product.sync();
-  await User.sync();
-  await Cart.sync();
-  await Order.sync();
-  await CartProduct.sync();
-  await OrderProduct.sync();
+  await Category.sync({ force: DB_FORCE, alter: DB_ALTER });
+  await Product.sync({ force: DB_FORCE, alter: DB_ALTER });
+  await User.sync({ force: DB_FORCE, alter: DB_ALTER });
+  await Cart.sync({ force: DB_FORCE, alter: DB_ALTER });
+  await Order.sync({ force: DB_FORCE, alter: DB_ALTER });
+  await CartProduct.sync({ force: DB_FORCE, alter: DB_ALTER });
+  await OrderProduct.sync({ force: DB_FORCE, alter: DB_ALTER });
 }
 
 Product.belongsTo(Category, { foreignKey: "categoryId" });
